@@ -1,6 +1,6 @@
-# PDF Editor
+# Weeshee PDF Editor
 
-A free, simple PDF editor that runs entirely in your browser. There is no sign-in and nothing to install. Open the link, pick a PDF, edit it, and download the result.
+Weeshee PDF Editor is a free, simple PDF editor that runs entirely in your browser. There is no sign-in and nothing to install. Open the link, pick a PDF, edit it, and download the result.
 
 **Your files never leave your device.** The editor does not upload your document to a server.
 

@@ -1,4 +1,4 @@
-/* Simple client-side PDF editor. Files never leave this device. */
+/* Weeshee PDF Editor. Files never leave this device. */
 (() => {
   "use strict";
 
