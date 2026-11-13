@@ -1,0 +1,9 @@
+.DS_Store
+Thumbs.db
+node_modules
+test/output
+test/tmp
+test/photo-sample.pdf
+test/*.html
+desktop.png
+mobile.png

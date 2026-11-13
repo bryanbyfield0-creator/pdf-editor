@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#0f766e" />
+  <meta name="description" content="Edit PDFs in your browser. Your files never leave your device." />
+  <title>PDF Editor</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="top">
+    <div class="brand">
+      <img src="favicon.svg" alt="" width="32" height="32" />
+      <div>
+        <h1>PDF Editor</h1>
+        <p class="tagline">Private · your files stay on this device</p>
+      </div>
+    </div>
+    <div class="top-actions">
+      <button type="button" class="btn" id="open-btn" data-testid="open-btn">Open PDF</button>
+      <button type="button" class="btn" id="merge-btn" data-testid="merge-btn" disabled>Add PDF</button>
+      <label class="compress-toggle" title="Shrink photos and added images to make a smaller PDF. Text stays sharp.">
+        <input type="checkbox" id="compress-chk" data-testid="compress-chk" />
+        Smaller file
+      </label>
+      <button type="button" class="btn primary" id="download-btn" data-testid="download-btn" disabled>Download</button>
+    </div>
+  </header>
+
+  <div class="toolbar" id="toolbar">
+    <div class="tool-group" role="radiogroup" aria-label="Tools">
+      <button type="button" class="tool active" data-tool="select" data-testid="tool-select" title="Select and move">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 3l14 9.2-6.2.9 3.8 7.4-2.4 1.2-3.8-7.5L5 18.5V3z"/></svg>
+        <span>Select</span>
+      </button>
+      <button type="button" class="tool" data-tool="text" data-testid="tool-text" title="Add a text box">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5h14v3h-2.2V7.2H13.1V17h1.8V19H9.1v-2h1.8V7.2H7.2V8H5V5z"/></svg>
+        <span>Text</span>
+      </button>
+      <button type="button" class="tool" data-tool="draw" data-testid="tool-draw" title="Draw or sign">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 17.2c2.4-1 4.3-3.8 7.6-3.3 1.5.2 2.6 1.2 3.9 1.7 2.2.8 3.7-.4 4.5-2.1M7 14l7.8-7.8a1.8 1.8 0 012.6 2.6L9.7 16.5 6 17.5 7 14z"/></svg>
+        <span>Draw</span>
+      </button>
+      <button type="button" class="tool" data-tool="highlight" data-testid="tool-highlight" title="Highlight">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 19h14v2H5v-2zm2.8-3.3l8.3-8.3 2.5 2.5-8.3 8.3H7.8v-2.5zM17.6 4.4a1.5 1.5 0 012.1 0l.9.9a1.5 1.5 0 010 2.1l-1.2 1.2-2.5-2.5 1.2-1.2z"/></svg>
+        <span>Highlight</span>
+      </button>
+      <button type="button" class="tool" data-tool="whiteout" data-testid="tool-whiteout" title="Cover with white">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 5h12a2 2 0 012 2v10a2 2 0 01-2 2H6a2 2 0 01-2-2V7a2 2 0 012-2zm1 3v8h10V8H7z"/></svg>
+        <span>White-out</span>
+      </button>
+      <button type="button" class="tool" data-tool="image" data-testid="tool-image" title="Add an image or signature photo">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5h14a2 2 0 012 2v10a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2zm2 12h10l-3.2-4.2-2.3 3-1.6-2.1L7 17zm8.5-7.2a1.6 1.6 0 100-3.2 1.6 1.6 0 000 3.2z"/></svg>
+        <span>Image</span>
+      </button>
+    </div>
+
+    <div class="props">
+      <label class="prop">Size
+        <input type="number" id="font-size" data-testid="font-size" min="8" max="96" step="1" value="16" />
+      </label>
+      <label class="prop">Color
+        <input type="color" id="ink-color" data-testid="ink-color" value="#111827" />
+      </label>
+      <label class="prop">Highlight
+        <input type="color" id="highlight-color" data-testid="highlight-color" value="#ffe566" />
+      </label>
+      <label class="prop">Pen
+        <input type="range" id="stroke-width" data-testid="stroke-width" min="1" max="16" step="0.5" value="2.5" />
+      </label>
+    </div>
+
+    <div class="tool-group">
+      <button type="button" class="tool" id="undo-btn" data-testid="undo-btn" disabled title="Undo (Ctrl+Z)">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 8H4V4m.5 4A8 8 0 1120 12 8 8 0 006.3 6.3"/></svg>
+        <span>Undo</span>
+      </button>
+      <button type="button" class="tool" id="delete-annot-btn" data-testid="delete-annot-btn" disabled title="Delete selected">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 6h8M6 6h12v2H6V6zm2 2v11a1 1 0 001 1h6a1 1 0 001-1V8"/></svg>
+        <span>Delete</span>
+      </button>
+    </div>
+  </div>
+
+  <div class="tip" id="tip" data-testid="tip">
+    <p><strong>How to use:</strong> Open a PDF, then pick a tool. Click to add text, draw a signature, highlight, or cover something with white-out. Drag items to move them, or pull a handle to resize. Use the page strip to rotate, reorder, remove, or change the paper size (Letter, A4, or a custom scale). Check “Smaller file” to compress images, then tap Download. Nothing is uploaded.</p>
+    <button type="button" class="tip-close" id="tip-close" data-testid="tip-close" aria-label="Dismiss tip">OK</button>
+  </div>
+
+  <div class="workspace" id="workspace">
+    <aside class="sidebar" id="sidebar" aria-label="Pages">
+      <div class="sidebar-head">
+        <h2>Pages</h2>
+        <div class="page-ops">
+          <button type="button" class="icon-btn" id="rotate-btn" data-testid="rotate-btn" disabled title="Rotate page">Rotate</button>
+          <button type="button" class="icon-btn danger" id="delete-page-btn" data-testid="delete-page-btn" disabled title="Delete page">Remove</button>
+        </div>
+        <div class="page-size" id="page-size-box">
+          <label class="prop">Page size
+            <select id="page-size" data-testid="page-size" disabled>
+              <option value="original">Original</option>
+              <option value="letter">Letter (8.5×11 in)</option>
+              <option value="a4">A4 (210×297 mm)</option>
+              <option value="percent">Custom %</option>
+            </select>
+          </label>
+          <label class="prop" id="page-percent-wrap" hidden>Scale
+            <input type="number" id="page-percent" data-testid="page-percent" min="25" max="400" step="5" value="100" />
+            <span>%</span>
+          </label>
+          <label class="prop tight" id="page-landscape-wrap">
+            <input type="checkbox" id="page-landscape" data-testid="page-landscape" disabled />
+            Landscape
+          </label>
+          <label class="prop tight">
+            <input type="checkbox" id="page-size-all" data-testid="page-size-all" checked />
+            All pages
+          </label>
+        </div>
+      </div>
+      <div class="thumbs" id="thumbs" data-testid="thumbs"></div>
+    </aside>
+    <main class="viewer-wrap">
+      <div class="zoom-bar">
+        <button type="button" class="icon-btn" id="zoom-out" data-testid="zoom-out" title="Zoom out">−</button>
+        <span id="zoom-label" data-testid="zoom-label">100%</span>
+        <button type="button" class="icon-btn" id="zoom-in" data-testid="zoom-in" title="Zoom in">+</button>
+        <span class="file-label" id="file-label" data-testid="file-label">No file open</span>
+      </div>
+      <div class="viewer" id="viewer" data-testid="viewer" tabindex="0">
+        <div class="drop-hint" id="drop-hint" data-testid="drop-hint">
+          <strong>Drop a PDF here</strong>
+          <span>or tap Open PDF to choose a file</span>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <div class="status" id="status" data-testid="status" hidden></div>
+  <input type="file" id="file-input" data-testid="file-input" accept="application/pdf,.pdf" hidden />
+  <input type="file" id="merge-input" data-testid="merge-input" accept="application/pdf,.pdf" hidden />
+  <input type="file" id="image-input" data-testid="image-input" accept="image/png,image/jpeg,image/webp,image/gif,.png,.jpg,.jpeg,.webp,.gif" hidden />
+
+  <script src="vendor/pdf.min.js"></script>
+  <script src="vendor/pdf-lib.min.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
